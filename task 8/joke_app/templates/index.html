@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Joke App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <span class="emoji">😂</span>
+            <h1>Random Joke App</h1>
+            <p>Click the button and get a laugh!</p>
+        </div>
+
+        <div class="category-bar">
+            <button class="cat-btn active" data-cat="random">All</button>
+            <button class="cat-btn" data-cat="programming">Programming</button>
+            <button class="cat-btn" data-cat="general">General</button>
+            <button class="cat-btn" data-cat="knock-knock">Knock Knock</button>
+        </div>
+
+        <div class="joke-card" id="jokeCard">
+            <div class="badge" id="jokeBadge">programming</div>
+            <p class="setup" id="setup">Why do programmers prefer dark mode?</p>
+            <div class="divider"></div>
+            <p class="punchline hidden" id="punchline">Because light attracts bugs!</p>
+            <button class="reveal-btn" id="revealBtn">Reveal Punchline 👀</button>
+        </div>
+
+        <button class="joke-btn" id="jokeBtn">
+            Get New Joke 🎲
+        </button>
+
+        <div class="counter">
+            Jokes read: <span id="count">0</span>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
