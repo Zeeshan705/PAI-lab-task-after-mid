@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="page-wrapper">
+
+        <aside class="sidebar">
+            <div class="hospital-brand">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="20" fill="#e8f4f1"/>
+                        <rect x="17" y="10" width="6" height="20" rx="2" fill="#2a7d6b"/>
+                        <rect x="10" y="17" width="20" height="6" rx="2" fill="#2a7d6b"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="hospital-name">MediCare</h1>
+                    <p class="hospital-sub">Hospital & Medical Center</p>
+                </div>
+            </div>
+
+            <div class="quick-topics">
+                <p class="topics-label">Quick Topics</p>
+                <button class="topic-btn" onclick="sendQuick('How do I book an appointment?')">📅 Appointments</button>
+                <button class="topic-btn" onclick="sendQuick('Tell me about your doctors')">👨‍⚕️ Our Doctors</button>
+                <button class="topic-btn" onclick="sendQuick('What departments do you have?')">🏥 Departments</button>
+                <button class="topic-btn" onclick="sendQuick('What are your timings?')">🕐 Timings</button>
+                <button class="topic-btn" onclick="sendQuick('What is the consultation fee?')">💰 Fee Structure</button>
+                <button class="topic-btn" onclick="sendQuick('Where is the hospital located?')">📍 Location</button>
+                <button class="topic-btn" onclick="sendQuick('Tell me about lab tests')">🧪 Lab & Tests</button>
+                <button class="topic-btn" onclick="sendQuick('Is there emergency service?')">🚨 Emergency</button>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>Emergency Helpline</p>
+                <span>0300 - 1234567</span>
+            </div>
+        </aside>
+
+        <main class="chat-area">
+            <div class="chat-header">
+                <div class="bot-status">
+                    <div class="status-dot"></div>
+                    <span>Assistant is online</span>
+                </div>
+                <button class="clear-btn" onclick="clearChat()">Clear Chat</button>
+            </div>
+
+            <div class="messages-container" id="messages">
+                <div class="message bot-message">
+                    <div class="avatar bot-avatar">
+                        <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="15" cy="15" r="15" fill="#2a7d6b"/>
+                            <rect x="12" y="7" width="5" height="16" rx="1.5" fill="white"/>
+                            <rect x="7" y="12" width="16" height="5" rx="1.5" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="bubble">
+                        <p>Assalam-o-Alaikum! 👋 Welcome to <strong>MediCare Hospital</strong>. I am your virtual assistant.</p>
+                        <p>I can help you with <strong>appointments, doctors, departments, timings, fees, lab tests, emergency services</strong>, and more.</p>
+                        <p>How may I assist you today?</p>
+                        <span class="timestamp" id="init-time"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Type your question here..." onkeydown="handleKey(event)" autocomplete="off"/>
+                <button class="send-btn" onclick="sendMessage()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
