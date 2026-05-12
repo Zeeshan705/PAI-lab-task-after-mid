@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>University Admission QnA Bot</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a5f, #0f5132);
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: #94d2bd;
+            margin-top: 6px;
+            font-size: 0.95rem;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 2px solid #334155;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: #3b82f6;
+        }
+
+        .search-box button {
+            padding: 14px 28px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(135deg, #2563eb, #0f5132);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .search-box button:hover { opacity: 0.85; }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
+
+        .suggestions span {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .suggestions span:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        .results-header {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        .result-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            transition: transform 0.15s, border-color 0.15s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .category-tag {
+            background: #0f5132;
+            color: #6ee7b7;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .score-badge {
+            background: #1e3a5f;
+            color: #93c5fd;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .matched-q {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .answer-text {
+            color: #cbd5e1;
+            line-height: 1.7;
+            font-size: 0.97rem;
+        }
+
+        .loader {
+            text-align: center;
+            color: #64748b;
+            padding: 30px;
+            display: none;
+        }
+
+        .no-result {
+            text-align: center;
+            color: #64748b;
+            padding: 30px;
+        }
+
+        .error-msg {
+            background: #450a0a;
+            border: 1px solid #7f1d1d;
+            color: #fca5a5;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: #475569;
+            font-size: 0.82rem;
+            margin-top: 40px;
+            border-top: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎓 University Admission QnA Bot</h1>
+    <p>Ask any question about admissions, programs, fees, scholarships & campus life</p>
+</header>
+
+<div class="container">
+
+    <div class="search-box">
+        <input type="text" id="queryInput" placeholder="e.g. What documents are needed for admission?" />
+        <button onclick="search()">Ask</button>
+    </div>
+
+    <div class="suggestions">
+        <span onclick="fillQuery('How to apply for admission')">How to apply for admission</span>
+        <span onclick="fillQuery('Scholarship requirements')">Scholarship requirements</span>
+        <span onclick="fillQuery('Fee structure')">Fee structure</span>
+        <span onclick="fillQuery('Hostel facilities')">Hostel facilities</span>
+        <span onclick="fillQuery('Programs offered')">Programs offered</span>
+    </div>
+
+    <div class="loader" id="loader">⏳ Searching...</div>
+    <div id="resultsHeader" class="results-header"></div>
+    <div id="results"></div>
+
+</div>
+
+<footer>
+    University Admission QnA Bot &nbsp;|&nbsp; Lab 12 &nbsp;|&nbsp;
+    Syed Zeeshan &mdash; Roll No. 025 &mdash; BSDS-4A
+</footer>
+
+<script>
+    function fillQuery(text) {
+        document.getElementById('queryInput').value = text;
+        search();
+    }
+
+    document.getElementById('queryInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') search();
+    });
+
+    async function search() {
+        const query = document.getElementById('queryInput').value.trim();
+        if (!query) return;
+
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('results').innerHTML = '';
+        document.getElementById('resultsHeader').textContent = '';
+
+        try {
+            const res = await fetch('/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query })
+            });
+            const data = await res.json();
+            document.getElementById('loader').style.display = 'none';
+
+            if (data.error) {
+                document.getElementById('results').innerHTML =
+                    `<div class="error-msg">${data.error}</div>`;
+                return;
+            }
+
+            if (!data.results || data.results.length === 0) {
+                document.getElementById('results').innerHTML =
+                    `<div class="no-result">No relevant answers found. Try rephrasing your question.</div>`;
+                return;
+            }
+
+            document.getElementById('resultsHeader').textContent =
+                `Top ${data.results.length} results for "${query}"`;
+
+            let html = '';
+            data.results.forEach((r, i) => {
+                html += `
+                <div class="result-card">
+                    <div class="card-top">
+                        <span class="category-tag">${r.category}</span>
+                        <span class="score-badge">Match: ${r.score}%</span>
+                    </div>
+                    <div class="matched-q">📌 ${r.question}</div>
+                    <div class="answer-text">${r.answer}</div>
+                </div>`;
+            });
+            document.getElementById('results').innerHTML = html;
+
+        } catch (err) {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('results').innerHTML =
+                `<div class="error-msg">Server error. Please try again.</div>`;
+        }
+    }
+</script>
+
+</body>
+</html>
